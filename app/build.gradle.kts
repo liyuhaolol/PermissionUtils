@@ -4,17 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "spa.lyh.cn.permissionutils"
+    namespace = "spa.lyh.cn.permissionutils.demo"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "spa.lyh.cn.permissionutils"
+        applicationId = "spa.lyh.cn.permissionutils.demo"
         minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -43,4 +41,5 @@ dependencies {
     implementation (libs.androidx.appcompat)
     implementation (libs.material)
     implementation (libs.androidx.constraintlayout)
+    implementation (project(":PermissionUtils"))
 }
