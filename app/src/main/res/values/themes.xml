@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.PermissionUtils" parent="Theme.MaterialComponents.Light.NoActionBar" tools:ignore="NewApi">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="android:forceDarkAllowed" >false</item><!--禁止系统自动转色app-->
+    </style>
+</resources>
