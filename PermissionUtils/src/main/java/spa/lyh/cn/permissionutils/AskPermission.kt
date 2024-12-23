@@ -1,0 +1,51 @@
+package spa.lyh.cn.permissionutils
+
+import android.app.Activity
+import androidx.fragment.app.Fragment
+import android.content.Context
+import android.text.TextUtils
+import spa.lyh.cn.permissionutils.utils.PUtils
+import spa.lyh.cn.permissionutils.utils.PermissionChecker
+
+open class AskPermission private constructor(private val context:Context){
+    private val mPermissions: ArrayList<String> = arrayListOf()
+
+    companion object{
+        fun with(context: Context): AskPermission{
+            return AskPermission(context)
+        }
+        fun with(fragment: Fragment): AskPermission{
+            return AskPermission(fragment.requireActivity())
+        }
+        fun with(fragment: android.app.Fragment): AskPermission{
+            return AskPermission(fragment.activity)
+        }
+    }
+
+
+    fun permission(permission: String): AskPermission{
+        if (TextUtils.isEmpty(permission)){
+            return this
+        }
+
+        if (PUtils.containsPermission(mPermissions,permission)){
+            return this
+        }
+        mPermissions.add(permission)
+        return this
+    }
+
+    fun request(){
+        // 检查当前 Activity 状态是否是正常的，如果不是则不请求权限
+        val activity:Activity? = PUtils.findActivity(context)
+        if (!PermissionChecker.checkActivityStatus(activity)) {
+            return
+        }
+
+        // 优化所申请的权限列表
+        //先不写走完整个流程
+        // 申请没有授予过的权限
+    }
+
+
+}
