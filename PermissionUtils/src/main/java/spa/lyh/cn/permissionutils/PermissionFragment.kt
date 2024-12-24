@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 
 class PermissionFragment: Fragment(), Runnable {
     companion object{
-        fun launch(activity:Activity,permissions: List<String>,){}
+        fun launch(activity:Activity,permissions: List<String>){}
     }
     override fun run() {
 
