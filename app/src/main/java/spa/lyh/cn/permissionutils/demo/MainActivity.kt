@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import spa.lyh.cn.permissionutils.AskPermission
 import spa.lyh.cn.permissionutils.ManifestPro
+import spa.lyh.cn.permissionutils.OnPermissionCallback
 import spa.lyh.cn.permissionutils.demo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +18,21 @@ class MainActivity : AppCompatActivity() {
             AskPermission
                 .with(this@MainActivity)
                 .permission(ManifestPro.permission.CAMERA)
+                .request(object : OnPermissionCallback{
+                    override fun onGranted(
+                        permissions: List<String>,
+                        allGranted: Boolean
+                    ) {
+
+                    }
+
+                    override fun onDenied(
+                        permissions: List<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+
+                    }
+                })
         })
     }
 }

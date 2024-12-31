@@ -7,8 +7,9 @@ import android.text.TextUtils
 import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.PermissionChecker
 
-open class AskPermission private constructor(private val context:Context){
+open class AskPermission private constructor(private val mContext:Context){
     private val mPermissions: ArrayList<String> = arrayListOf()
+    private var mInterceptor:OnPermissionInterceptor? = null
 
     companion object{
         fun with(context: Context): AskPermission{
@@ -35,7 +36,13 @@ open class AskPermission private constructor(private val context:Context){
         return this
     }
 
-    fun request(){
+    fun request(callback:OnPermissionCallback?){
+        if (mInterceptor == null){
+            mInterceptor = object :OnPermissionInterceptor{}
+        }
+        val context = this.mContext
+        val interceptor:OnPermissionInterceptor = mInterceptor!!
+        val permissions = ArrayList(mPermissions)
         // 检查当前 Activity 状态是否是正常的，如果不是则不请求权限
         val activity:Activity? = PUtils.findActivity(context)
         if (!PermissionChecker.checkActivityStatus(activity)) {
@@ -45,6 +52,7 @@ open class AskPermission private constructor(private val context:Context){
         // 优化所申请的权限列表
         //先不写走完整个流程
         // 申请没有授予过的权限
+        interceptor.launchPermissionRequest(activity!!,permissions,callback)
     }
 
 
