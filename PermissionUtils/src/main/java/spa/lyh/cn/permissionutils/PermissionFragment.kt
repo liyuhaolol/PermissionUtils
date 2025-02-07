@@ -49,7 +49,7 @@ class PermissionFragment: Fragment(), Runnable {
     }
     private var mRequestFlag: Boolean = false
     private var mCallBack:OnPermissionCallback? = null
-    private lateinit var mInterceptor:OnPermissionInterceptor
+    private var mInterceptor:OnPermissionInterceptor? = null
     private var mScreenOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     fun setRequestFlag(flag: Boolean){
         mRequestFlag = flag
@@ -76,7 +76,50 @@ class PermissionFragment: Fragment(), Runnable {
         fragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
     }
 
-    fun requestDangerousPermission(){}
+    fun requestDangerousPermission(){
+        if (activity == null || arguments == null){
+            return
+        }
+        val requestCode = arguments.getInt(REQUEST_CODE)
+        val allPermissions = arguments.getStringArrayList(REQUEST_PERMISSIONS)
+
+        if (allPermissions == null || allPermissions.isEmpty) {
+            return
+        }
+        // Android 13 传感器策略发生改变，申请后台传感器权限的前提是要有前台传感器权限
+        // Android 10 定位策略发生改变，申请后台定位权限的前提是要有前台定位权限（授予了精确或者模糊任一权限）
+        // 必须要有文件读取权限才能申请获取媒体位置权限
+        // 发起权限请求
+        requestPermissions(allPermissions.toTypedArray(), requestCode);
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (activity == null || arguments == null || mInterceptor == null || requestCode != arguments.getInt(REQUEST_CODE)) {
+            return
+        }
+        val callback: OnPermissionCallback? = mCallBack
+        // 释放监听对象的引用
+        mCallBack = null
+        val interceptor:OnPermissionInterceptor? = mInterceptor
+        // 释放拦截器对象的引用
+        mInterceptor = null
+        // 释放对这个请求码的占用
+        REQUEST_CODE_ARRAY.remove(requestCode)
+
+        if (permissions.isEmpty() || grantResults.isEmpty()) {
+            return
+        }
+        Log.e("qwer","输出一下")
+        // 将数组转换成 ArrayList
+        val allPermissions: ArrayList<String> = PUtils.asArrayList("你好","测试")
+        // 将 Fragment 从 Activity 移除
+        detachByActivity(activity)
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -114,6 +157,7 @@ class PermissionFragment: Fragment(), Runnable {
             detachByActivity(activity)
             return
         }
+        Log.e("qwer","onResume")
         requestDangerousPermission()
     }
 
@@ -124,6 +168,7 @@ class PermissionFragment: Fragment(), Runnable {
         if (!isAdded) {
             return;
         }
+        Log.e("qwer","run")
         requestDangerousPermission()
     }
 }

@@ -102,4 +102,13 @@ object PUtils {
         }
     }
 
+    fun <T> asArrayList(vararg array: T): ArrayList<T> {
+        val initialCapacity = array.size
+        val list = ArrayList<T>(initialCapacity)
+        array.forEach { t ->
+            t?.let { list.add(it) }
+        }
+        return list
+    }
+
 }
