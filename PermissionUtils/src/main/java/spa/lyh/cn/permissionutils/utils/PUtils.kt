@@ -24,7 +24,7 @@ object PUtils {
         return false
     }
 
-    private fun equalsPermission(permission1: String,permission2: String): Boolean{
+    fun equalsPermission(permission1: String,permission2: String): Boolean{
         val length = permission1.length
         if (length != permission2.length){
             return false
@@ -110,5 +110,6 @@ object PUtils {
         }
         return list
     }
+
 
 }

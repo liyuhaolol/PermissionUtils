@@ -38,7 +38,7 @@ open class AskPermission private constructor(private val mContext:Context){
 
     fun request(callback:OnPermissionCallback?){
         if (mInterceptor == null){
-            mInterceptor = object :OnPermissionInterceptor{}
+            mInterceptor = DefaultPermissionInterceptor()
         }
         val context = this.mContext
         val interceptor:OnPermissionInterceptor = mInterceptor!!
@@ -53,6 +53,11 @@ open class AskPermission private constructor(private val mContext:Context){
         //先不写走完整个流程
         // 申请没有授予过的权限
         interceptor.launchPermissionRequest(activity!!,permissions,callback)
+    }
+
+    fun interceptor(interceptor:OnPermissionInterceptor?): AskPermission{
+        mInterceptor = interceptor
+        return this
     }
 
 

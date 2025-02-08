@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi
 
 object ManifestPro {
     object permission{
+        /** VPN 权限（特殊权限，Android 4.0 新增的权限，注意此权限不需要在清单文件中注册也能申请） */
+        const val BIND_VPN_SERVICE = "android.permission.BIND_VPN_SERVICE"
         const val READ_CALENDAR = "android.permission.READ_CALENDAR"
         const val WRITE_CALENDAR = "android.permission.WRITE_CALENDAR"
         const val CAMERA = "android.permission.CAMERA"

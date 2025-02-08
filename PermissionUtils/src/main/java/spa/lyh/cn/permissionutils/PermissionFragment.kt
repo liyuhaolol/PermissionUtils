@@ -5,8 +5,10 @@ import android.app.Fragment
 import android.app.FragmentManager
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import spa.lyh.cn.permissionutils.utils.PApi
 import spa.lyh.cn.permissionutils.utils.PUtils
 import java.util.Random
 import kotlin.math.pow
@@ -114,11 +116,30 @@ class PermissionFragment: Fragment(), Runnable {
         if (permissions.isEmpty() || grantResults.isEmpty()) {
             return
         }
-        Log.e("qwer","输出一下")
+        //这里是重新检查权限，范例由于历史原因过于复杂，暂时不管
+/*        permissions.forEachIndexed { index,item ->
+            grantResults[index] = if (PApi.recheckPermissionResult(activity, item.toString(), grantResults[index] == PackageManager.PERMISSION_GRANTED)){
+                PackageManager.PERMISSION_GRANTED
+            }else{
+                PackageManager.PERMISSION_DENIED
+            }
+        }*/
         // 将数组转换成 ArrayList
-        val allPermissions: ArrayList<String> = PUtils.asArrayList("你好","测试")
+        val allPermissions: ArrayList<String> = PUtils.asArrayList(*permissions.filterNotNull().toTypedArray())
         // 将 Fragment 从 Activity 移除
         detachByActivity(activity)
+
+        // 获取已授予的权限
+        val grantedPermissions: ArrayList<String> = PApi.getGrantedPermissions(allPermissions,grantResults)
+
+        // 如果请求成功的权限集合大小和请求的数组一样大时证明权限已经全部授予
+        if (grantedPermissions.size == allPermissions.size) {
+            // 代表申请的所有的权限都授予了
+            interceptor?.grantedPermissionRequest(activity, allPermissions, grantedPermissions, true, callback);
+            // 权限申请结束
+            interceptor?.finishPermissionRequest(activity, allPermissions, false, callback)
+            return
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -157,7 +178,6 @@ class PermissionFragment: Fragment(), Runnable {
             detachByActivity(activity)
             return
         }
-        Log.e("qwer","onResume")
         requestDangerousPermission()
     }
 
@@ -168,7 +188,6 @@ class PermissionFragment: Fragment(), Runnable {
         if (!isAdded) {
             return;
         }
-        Log.e("qwer","run")
         requestDangerousPermission()
     }
 }
