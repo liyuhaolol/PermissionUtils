@@ -20,6 +20,16 @@ interface OnPermissionInterceptor {
     }
 
     /**
+     * 用户拒绝了权限（注意需要在此处回调 {@link OnPermissionCallback#onDenied(List, boolean)}）
+     */
+    fun deniedPermissionRequest(activity:Activity, allPermissions: ArrayList<String>, deniedPermissions: ArrayList<String>, doNotAskAgain: Boolean, callback:OnPermissionCallback?) {
+        if (callback == null) {
+            return
+        }
+        callback.onDenied(deniedPermissions, doNotAskAgain)
+    }
+
+    /**
      * 权限请求完成
      *
      */
