@@ -7,11 +7,11 @@ import spa.lyh.cn.permissionutils.utils.pd.PermissionDelegate
 import spa.lyh.cn.permissionutils.utils.pd.impl.PermissionDelegateImplV34
 
 object PApi {
-    //private val DELEGATE:PermissionDelegate = PermissionDelegateImplV34()
+    private val DELEGATE:PermissionDelegate = PermissionDelegateImplV34()
 
-/*    fun recheckPermissionResult(context: Context,permission:String,grantResult: Boolean): Boolean{
+    fun recheckPermissionResult(context: Context,permission:String,grantResult: Boolean): Boolean{
         return DELEGATE.recheckPermissionResult(context, permission, grantResult)
-    }*/
+    }
 
     /**
      * 获取已授予的权限
@@ -51,5 +51,12 @@ object PApi {
             }*/
         }
         return false
+    }
+
+    /**
+     * 判断某个权限是否是特殊权限
+     */
+    fun isSpecialPermission(permission: String): Boolean {
+        return PHelper.isSpecialPermission(permission);
     }
 }

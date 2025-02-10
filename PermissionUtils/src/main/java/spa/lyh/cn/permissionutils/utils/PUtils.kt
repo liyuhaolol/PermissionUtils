@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Build
 import android.view.Display
 import android.view.Surface
@@ -111,5 +114,28 @@ object PUtils {
         return list
     }
 
+    /**
+     * 判断这个意图的 Activity 是否存在
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    fun areActivityIntent(context:Context, intent:Intent?): Boolean {
+        if (intent == null) {
+            return false
+        }
+        // 这里为什么不用 Intent.resolveActivity(intent) != null 来判断呢？
+        // 这是因为在 OPPO R7 Plus （Android 5.0）会出现误判，明明没有这个 Activity，却返回了 ComponentName 对象
+        val packageManager = context.packageManager;
+        if (AVersion.isAndroid13()) {
+            return !packageManager.queryIntentActivities(intent,
+                PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong())).isEmpty();
+        }
+        return !packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty();
+    }
 
+    /**
+     * 获取包名 uri
+     */
+    fun getPackageNameUri(context:Context): Uri {
+        return Uri.parse("package:" + context.packageName);
+    }
 }

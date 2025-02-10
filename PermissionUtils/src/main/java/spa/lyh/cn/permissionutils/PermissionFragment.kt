@@ -117,13 +117,13 @@ class PermissionFragment: Fragment(), Runnable {
             return
         }
         //这里是重新检查权限，范例由于历史原因过于复杂，暂时不管
-/*        permissions.forEachIndexed { index,item ->
+        permissions.forEachIndexed { index,item ->
             grantResults[index] = if (PApi.recheckPermissionResult(activity, item.toString(), grantResults[index] == PackageManager.PERMISSION_GRANTED)){
                 PackageManager.PERMISSION_GRANTED
             }else{
                 PackageManager.PERMISSION_DENIED
             }
-        }*/
+        }
         // 将数组转换成 ArrayList
         val allPermissions: ArrayList<String> = PUtils.asArrayList(*permissions.filterNotNull().toTypedArray())
         // 将 Fragment 从 Activity 移除
