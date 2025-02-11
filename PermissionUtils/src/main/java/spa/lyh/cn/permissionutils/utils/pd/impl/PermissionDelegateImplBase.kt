@@ -14,7 +14,7 @@ import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.pd.PermissionDelegate
 import java.util.Collections
 
-class PermissionDelegateImplBase: PermissionDelegate {
+open class PermissionDelegateImplBase: PermissionDelegate {
     override fun isGrantedPermission(
         context: Context,
         permission: String
@@ -57,7 +57,7 @@ class PermissionDelegateImplBase: PermissionDelegate {
     override fun getPermissionSettingIntent(
         context: Context,
         permission: String
-    ): Intent {
+    ): Intent? {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.BIND_VPN_SERVICE)) {
             return getVpnPermissionIntent(context)
         }

@@ -7,6 +7,9 @@ import android.provider.Settings
 
 object PIntentManager {
 
+    /** 小米手机管家 App 包名 */
+    private val MIUI_MOBILE_MANAGER_APP_PACKAGE_NAME = "com.miui.securitycenter"
+
     fun getApplicationDetailsIntent(context:Context): Intent {
         return getApplicationDetailsIntent(context, null)
     }
@@ -43,6 +46,33 @@ object PIntentManager {
         }
 
         return getAndroidSettingAppIntent()
+    }
+
+    fun getMiuiPermissionPageIntent(context:Context):Intent? {
+        val appPermEditorActionIntent = Intent()
+            .setAction("miui.intent.action.APP_PERM_EDITOR")
+            .putExtra("extra_pkgname", context.getPackageName());
+
+        val xiaoMiMobileManagerAppIntent = getXiaoMiMobileManagerAppIntent(context);
+
+        var intent:Intent? = null
+        if (PUtils.areActivityIntent(context, appPermEditorActionIntent)) {
+            intent = appPermEditorActionIntent;
+        }
+
+        if (PUtils.areActivityIntent(context, xiaoMiMobileManagerAppIntent)) {
+            intent = StartActivityManager.addSubIntentToMainIntent(intent, xiaoMiMobileManagerAppIntent);
+        }
+
+        return intent;
+    }
+
+    fun getXiaoMiMobileManagerAppIntent(context:Context):Intent? {
+        val intent = context.packageManager.getLaunchIntentForPackage(MIUI_MOBILE_MANAGER_APP_PACKAGE_NAME);
+        if (PUtils.areActivityIntent(context, intent)) {
+            return intent
+        }
+        return null
     }
 
     /** 跳转到系统设置页面 */
