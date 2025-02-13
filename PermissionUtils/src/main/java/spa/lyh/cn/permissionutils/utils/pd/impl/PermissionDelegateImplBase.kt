@@ -77,6 +77,13 @@ open class PermissionDelegateImplBase: PermissionDelegate {
         if (!PUtils.areActivityIntent(context, intent)) {
             intent = PIntentManager.getApplicationDetailsIntent(context);
         }
-        return intent;
+        return intent
+    }
+
+    /**
+     * 获取应用详情页 Intent
+     */
+    fun getApplicationDetailsIntent(context:Context):Intent {
+        return PIntentManager.getApplicationDetailsIntent(context);
     }
 }
