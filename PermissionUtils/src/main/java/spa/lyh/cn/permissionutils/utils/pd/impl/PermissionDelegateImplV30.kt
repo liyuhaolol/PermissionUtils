@@ -38,7 +38,7 @@ open class PermissionDelegateImplV30: PermissionDelegateImplV29() {
         return super.isDoNotAskAgainPermission(activity, permission)
     }
 
-    override fun getPermissionSettingIntent(context: Context, permission: String): Intent? {
+    override fun getPermissionSettingIntent(context: Context, permission: String): Intent {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)) {
             if (!AVersion.isAndroid11()) {
                 return getApplicationDetailsIntent(context)

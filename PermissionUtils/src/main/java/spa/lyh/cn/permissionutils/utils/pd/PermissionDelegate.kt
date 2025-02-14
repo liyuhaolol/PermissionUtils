@@ -24,5 +24,5 @@ interface PermissionDelegate {
     /**
      * 获取权限设置页的意图
      */
-    fun getPermissionSettingIntent(context: Context,permission:String):Intent?
+    fun getPermissionSettingIntent(context: Context,permission:String):Intent
 }

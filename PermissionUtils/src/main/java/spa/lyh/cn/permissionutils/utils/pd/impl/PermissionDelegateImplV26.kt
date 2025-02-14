@@ -77,7 +77,7 @@ open class PermissionDelegateImplV26: PermissionDelegateImplV23() {
         return super.isDoNotAskAgainPermission(activity, permission)
     }
 
-    override fun getPermissionSettingIntent(context: Context, permission: String): Intent? {
+    override fun getPermissionSettingIntent(context: Context, permission: String): Intent {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.REQUEST_INSTALL_PACKAGES)) {
             if (!AVersion.isAndroid8()) {
                 return getApplicationDetailsIntent(context)

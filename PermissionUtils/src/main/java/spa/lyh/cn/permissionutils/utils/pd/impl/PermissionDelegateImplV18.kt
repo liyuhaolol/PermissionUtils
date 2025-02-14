@@ -23,7 +23,7 @@ open class PermissionDelegateImplV18: PermissionDelegateImplBase() {
         return super.isDoNotAskAgainPermission(activity, permission)
     }
 
-    override fun getPermissionSettingIntent(context: Context, permission: String): Intent? {
+    override fun getPermissionSettingIntent(context: Context, permission: String): Intent {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.BIND_NOTIFICATION_LISTENER_SERVICE)) {
             return NotificationListenerPermissionCompat.getPermissionIntent(context);
         }

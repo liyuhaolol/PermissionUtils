@@ -29,7 +29,7 @@ open class PermissionDelegateImplV21 : PermissionDelegateImplV19(){
         return super.isDoNotAskAgainPermission(activity, permission)
     }
 
-    override fun getPermissionSettingIntent(context: Context, permission: String): Intent? {
+    override fun getPermissionSettingIntent(context: Context, permission: String): Intent {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.PACKAGE_USAGE_STATS)) {
             if (!AVersion.isAndroid5()) {
                 return getApplicationDetailsIntent(context)

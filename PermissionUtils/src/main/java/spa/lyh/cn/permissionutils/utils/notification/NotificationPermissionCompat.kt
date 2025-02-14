@@ -24,7 +24,7 @@ object NotificationPermissionCompat {
         return true
     }
 
-    fun getPermissionIntent(context: Context): Intent? {
+    fun getPermissionIntent(context: Context): Intent {
         var intent: Intent? = null
         if (AVersion.isAndroid8()) {
             intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
@@ -37,8 +37,9 @@ object NotificationPermissionCompat {
             intent.putExtra("app_uid", context.applicationInfo.uid)
         }
         if (!PUtils.areActivityIntent(context, intent)) {
+            //如果intent为空，这里会100%初始化intent
             intent = PIntentManager.getApplicationDetailsIntent(context)
         }
-        return intent
+        return intent!!
     }
 }

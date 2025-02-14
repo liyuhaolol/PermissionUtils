@@ -89,7 +89,7 @@ open class PermissionDelegateImplV23: PermissionDelegateImplV21() {
         return super.recheckPermissionResult(context, permission, grantResult)
     }
 
-    override fun getPermissionSettingIntent(context: Context, permission: String): Intent? {
+    override fun getPermissionSettingIntent(context: Context, permission: String): Intent {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.GET_INSTALLED_APPS)) {
             return GetInstalledAppsPermissionCompat.getPermissionIntent(context)
         }

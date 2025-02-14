@@ -54,7 +54,7 @@ object GetInstalledAppsPermissionCompat {
         return false
     }
 
-    fun getPermissionIntent(context: Context): Intent? {
+    fun getPermissionIntent(context: Context): Intent {
         if (PRUtils.isMiui()) {
             var intent: Intent? = null
             if (PRUtils.isMiuiOptimization()) {

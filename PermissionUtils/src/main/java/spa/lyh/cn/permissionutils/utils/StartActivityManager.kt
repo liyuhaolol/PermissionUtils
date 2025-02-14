@@ -22,12 +22,13 @@ object StartActivityManager {
         return subIntent ?: intent
     }
 
-    fun addSubIntentToMainIntent(mainIntent: Intent?, subIntent: Intent?): Intent? {
+    fun addSubIntentToMainIntent(mainIntent: Intent?, subIntent: Intent?): Intent {
         if (mainIntent == null && subIntent != null) {
             return subIntent
         }
         if (subIntent == null) {
-            return mainIntent
+            //这里是原作者java代码写的一个非空的坑，我只能从现实里猜测，不可能会出现mainIntent为空的情况
+            return mainIntent!!
         }
         val deepSubIntent = getDeepSubIntent(mainIntent!!)
         deepSubIntent.putExtra(SUB_INTENT_KEY, subIntent)

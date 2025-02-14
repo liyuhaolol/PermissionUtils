@@ -61,9 +61,9 @@ object PIntentManager {
     fun getMiuiPermissionPageIntent(context:Context):Intent? {
         val appPermEditorActionIntent = Intent()
             .setAction("miui.intent.action.APP_PERM_EDITOR")
-            .putExtra("extra_pkgname", context.getPackageName());
+            .putExtra("extra_pkgname", context.packageName)
 
-        val xiaoMiMobileManagerAppIntent = getXiaoMiMobileManagerAppIntent(context);
+        val xiaoMiMobileManagerAppIntent = getXiaoMiMobileManagerAppIntent(context)
 
         var intent:Intent? = null
         if (PUtils.areActivityIntent(context, appPermEditorActionIntent)) {
@@ -71,14 +71,14 @@ object PIntentManager {
         }
 
         if (PUtils.areActivityIntent(context, xiaoMiMobileManagerAppIntent)) {
-            intent = StartActivityManager.addSubIntentToMainIntent(intent, xiaoMiMobileManagerAppIntent);
+            intent = StartActivityManager.addSubIntentToMainIntent(intent, xiaoMiMobileManagerAppIntent)
         }
 
-        return intent;
+        return intent
     }
 
     fun getXiaoMiMobileManagerAppIntent(context:Context):Intent? {
-        val intent = context.packageManager.getLaunchIntentForPackage(MIUI_MOBILE_MANAGER_APP_PACKAGE_NAME);
+        val intent = context.packageManager.getLaunchIntentForPackage(MIUI_MOBILE_MANAGER_APP_PACKAGE_NAME)
         if (PUtils.areActivityIntent(context, intent)) {
             return intent
         }
@@ -87,7 +87,7 @@ object PIntentManager {
 
     /** 跳转到系统设置页面 */
     fun getAndroidSettingAppIntent(): Intent {
-        return Intent(Settings.ACTION_SETTINGS);
+        return Intent(Settings.ACTION_SETTINGS)
     }
 
     fun getEmuiWindowPermissionPageIntent(context:Context): Intent? {
@@ -115,7 +115,7 @@ object PIntentManager {
         if (romVersionName.startsWith("3.0")) {
             // 3.0、3.0.1
             if (PUtils.areActivityIntent(context, notificationManagementActivityIntent)) {
-                intent = notificationManagementActivityIntent;
+                intent = notificationManagementActivityIntent
             }
 
             if (PUtils.areActivityIntent(context, addViewMonitorActivityIntent)) {
@@ -124,7 +124,7 @@ object PIntentManager {
         } else {
             // 3.1、其他的
             if (PUtils.areActivityIntent(context, addViewMonitorActivityIntent)) {
-                intent = addViewMonitorActivityIntent;
+                intent = addViewMonitorActivityIntent
             }
 
             if (PUtils.areActivityIntent(context, notificationManagementActivityIntent)) {
@@ -188,7 +188,7 @@ object PIntentManager {
         var intent:Intent? = null
 
         if (PUtils.areActivityIntent(context, permissionTopActivityActionIntent)) {
-            intent = permissionTopActivityActionIntent;
+            intent = permissionTopActivityActionIntent
         }
 
         if (PUtils.areActivityIntent(context, oppoSafeCenterAppIntent)) {
@@ -201,11 +201,11 @@ object PIntentManager {
     fun getOppoSafeCenterAppIntent(context:Context):Intent? {
         var intent:Intent? = context.packageManager.getLaunchIntentForPackage(COLOR_OS_SAFE_CENTER_APP_PACKAGE_NAME_1);
         if (PUtils.areActivityIntent(context, intent)) {
-            return intent;
+            return intent
         }
         intent = context.packageManager.getLaunchIntentForPackage(COLOR_OS_SAFE_CENTER_APP_PACKAGE_NAME_2);
         if (PUtils.areActivityIntent(context, intent)) {
-            return intent;
+            return intent
         }
         intent = context.packageManager.getLaunchIntentForPackage(COLOR_OS_SAFE_CENTER_APP_PACKAGE_NAME_3);
         if (PUtils.areActivityIntent(context, intent)) {
@@ -250,7 +250,7 @@ object PIntentManager {
     }
 
     fun getOneUiWindowPermissionPageIntent(context:Context):Intent? {
-        return getOneUiPermissionPageIntent(context);
+        return getOneUiPermissionPageIntent(context)
     }
 
     /**
