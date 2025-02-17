@@ -90,8 +90,8 @@ object AndroidManifestParser {
     }
 
     @NonNull
-    private fun parseApplicationFromXml(parser: XmlResourceParser): AndroidManifestInfo.ApplicationInfo {
-        val applicationInfo = AndroidManifestInfo.ApplicationInfo()
+    private fun parseApplicationFromXml(parser: XmlResourceParser): AndroidManifestInfo.AInfo {
+        val applicationInfo = AndroidManifestInfo.AInfo()
         applicationInfo.name = parser.getAttributeValue(ANDROID_NAMESPACE_URI, ATTR_NAME)
         applicationInfo.requestLegacyExternalStorage = parser.getAttributeBooleanValue(ANDROID_NAMESPACE_URI, ATTR_REQUEST_LEGACY_EXTERNAL_STORAGE, false)
         return applicationInfo

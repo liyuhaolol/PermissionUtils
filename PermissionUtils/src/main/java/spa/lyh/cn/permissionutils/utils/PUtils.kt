@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.AssetManager
 import android.content.res.Configuration
@@ -331,5 +332,12 @@ object PUtils {
             delayMillis = 1000
         }
         postDelayed(runnable, delayMillis)
+    }
+
+    /**
+     * 当前是否处于 debug 模式
+     */
+    fun isDebugMode(context: Context): Boolean {
+        return (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
     }
 }

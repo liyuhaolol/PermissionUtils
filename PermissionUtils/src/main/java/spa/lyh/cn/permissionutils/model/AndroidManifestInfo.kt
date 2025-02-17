@@ -14,7 +14,7 @@ class AndroidManifestInfo {
     val permissionInfoList: MutableList<PermissionInfo> = ArrayList()
 
     /** Application 节点信息 */
-    var applicationInfo: ApplicationInfo? = null
+    var applicationInfo: AInfo? = null
 
     /** Activity 节点信息 */
     val activityInfoList: MutableList<ActivityInfo> = ArrayList()
@@ -50,7 +50,7 @@ class AndroidManifestInfo {
         }
     }
 
-    class ApplicationInfo {
+    class AInfo {
         /** 应用的类名 */
         var name: String = ""
         /** 是否忽略分区存储特性 */

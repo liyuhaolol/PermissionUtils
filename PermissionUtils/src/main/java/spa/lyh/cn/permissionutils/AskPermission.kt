@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import android.content.Context
 import android.text.TextUtils
+import spa.lyh.cn.permissionutils.utils.PApi
 import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.PermissionChecker
 
@@ -48,9 +49,15 @@ open class AskPermission private constructor(private val mContext:Context){
         if (!PermissionChecker.checkActivityStatus(activity)) {
             return
         }
-
         // 优化所申请的权限列表
-        //先不写走完整个流程
+        PermissionChecker.optimizeDeprecatedPermission(permissions)
+
+        if (PApi.isGrantedPermissions(context, permissions)) {
+            // 证明这些权限已经全部授予过，直接回调成功
+            interceptor.grantedPermissionRequest(activity!!, permissions, permissions, true, callback);
+            interceptor.finishPermissionRequest(activity, permissions, true, callback);
+            return
+        }
         // 申请没有授予过的权限
         interceptor.launchPermissionRequest(activity!!,permissions,callback)
     }

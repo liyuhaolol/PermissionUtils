@@ -138,4 +138,20 @@ object PApi {
         }
         return false
     }
+
+    /**
+     * 判断某些权限是否全部被授予
+     */
+    fun isGrantedPermissions(context:Context, permissions:List<String>): Boolean {
+        if (permissions.isEmpty()) {
+            return false
+        }
+
+        for (permission in permissions) {
+            if (!isGrantedPermission(context, permission)) {
+                return false
+            }
+        }
+        return true
+    }
 }
