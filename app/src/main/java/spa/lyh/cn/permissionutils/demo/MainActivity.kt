@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             AskPermission
                 .with(this@MainActivity)
                 .permission(ManifestPro.permission.CAMERA)
-                //.interceptor(PermissionInterceptor())
+                .interceptor(PermissionInterceptor())
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,
