@@ -48,6 +48,19 @@ object PUtils {
         return false
     }
 
+    fun removeExitsPermission(permissions:Collection<String>,permissions2: MutableList<String>){
+        if (permissions.isEmpty()){
+            return
+        }
+        val iterator = permissions2.iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (permissions.contains(item)) {
+                iterator.remove()
+            }
+        }
+    }
+
     fun equalsPermission(permission1: String,permission2: String): Boolean{
         val length = permission1.length
         if (length != permission2.length){

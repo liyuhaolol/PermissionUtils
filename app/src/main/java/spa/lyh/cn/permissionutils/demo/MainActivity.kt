@@ -18,21 +18,34 @@ class MainActivity : AppCompatActivity() {
         b.btn1.setOnClickListener(View.OnClickListener{
             AskPermission
                 .with(this@MainActivity)
-                .permission(ManifestPro.permission.CAMERA)
+                //.permission(ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
+                .permission(
+                    ManifestPro.permission.CAMERA,
+                    ManifestPro.permission.ACCESS_FINE_LOCATION,
+                    ManifestPro.permission.ACCESS_COARSE_LOCATION)
+                //.permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
                 .interceptor(PermissionInterceptor())
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,
                         allGranted: Boolean
                     ) {
-                        Toast.makeText(this@MainActivity,"全部通过了", Toast.LENGTH_SHORT).show()
+                        if (allGranted){
+                            Toast.makeText(this@MainActivity,"全部通过了", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"部分通过了", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onDenied(
                         permissions: List<String>,
                         doNotAskAgain: Boolean
                     ) {
-
+                        if (doNotAskAgain){
+                            Toast.makeText(this@MainActivity,"拒绝且不再询问", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"拒绝了", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 })
         })
