@@ -32,10 +32,9 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
         }
         if (showPopupWindow){
             //要弹悬浮穿
+            super.launchPermissionRequest(activity, allPermissions, callback)
         }else{
             //特殊权限要弹dialog
         }
-
-        super.launchPermissionRequest(activity, allPermissions, callback)
     }
 }
