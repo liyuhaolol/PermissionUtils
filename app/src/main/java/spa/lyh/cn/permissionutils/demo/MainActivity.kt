@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
                     ManifestPro.permission.ACCESS_FINE_LOCATION,
                     ManifestPro.permission.ACCESS_COARSE_LOCATION)
                 //.permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
-                .interceptor(PermissionInterceptor())
+                .interceptor(PermissionInterceptor(this)
+                    .setTitle("权限说明标题")
+                    .setContent("权限说明内容，你为什么要申请这个权限，要做什么。"))
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,

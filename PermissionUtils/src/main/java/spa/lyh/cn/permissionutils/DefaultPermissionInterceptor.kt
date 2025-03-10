@@ -5,15 +5,16 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.view.Gravity
 import android.view.ViewGroup
-import android.widget.PopupWindow
 import spa.lyh.cn.permissionutils.utils.AVersion
+import spa.lyh.cn.permissionutils.view.DefaultPermissionPopup
 
 open class DefaultPermissionInterceptor: OnPermissionInterceptor {
     /** 权限申请标记 */
     private var mRequestFlag = false
     /** 权限申请说明 Popup */
-    var mPermissionPopup:PopupWindow? = null
+    private var mPermissionPopup: DefaultPermissionPopup? = null
 
     val HANDLER:Handler = Handler(Looper.getMainLooper())
 
@@ -56,9 +57,31 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
         }
     }
 
+    override fun finishPermissionRequest(
+        activity: Activity,
+        allPermissions: ArrayList<String>,
+        skipRequest: Boolean,
+        callback: OnPermissionCallback?
+    ) {
+        mRequestFlag = false
+        dismissPopupWindow()
+    }
+
     private fun showPopupWindow(decorView: ViewGroup){
-        if (mPermissionPopup != null){
-            //不为空才弹出
+        mPermissionPopup?.showAtLocation(decorView, Gravity.TOP, 0, 0)
+    }
+
+    private fun dismissPopupWindow() {
+        if (mPermissionPopup == null) {
+            return
         }
+        if (!mPermissionPopup!!.isShowing) {
+            return
+        }
+        mPermissionPopup!!.dismiss()
+    }
+
+    fun setPopUpWindow(pop:DefaultPermissionPopup){
+        this.mPermissionPopup = pop
     }
 }
