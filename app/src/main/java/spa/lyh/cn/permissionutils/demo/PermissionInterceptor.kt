@@ -7,4 +7,7 @@ import spa.lyh.cn.permissionutils.OnPermissionInterceptor
 
 class PermissionInterceptor: DefaultPermissionInterceptor() {
 
+    fun a(){
+
+    }
 }
