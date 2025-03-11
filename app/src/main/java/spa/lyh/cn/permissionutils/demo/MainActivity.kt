@@ -18,10 +18,41 @@ class MainActivity : AppCompatActivity() {
         b.btn1.setOnClickListener(View.OnClickListener{
             AskPermission
                 .with(this@MainActivity)
-                //.permission(ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
-                .permission(
-                    ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
-                //.permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
+                .permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
+                .interceptor(PermissionInterceptor(this)
+                    .setTitle("权限说明标题")
+                    .setContent("权限说明内容，你为什么要申请这个权限，要做什么。"))
+                .request(object : OnPermissionCallback{
+                    override fun onGranted(
+                        permissions: List<String>,
+                        allGranted: Boolean
+                    ) {
+                        if (allGranted){
+                            Toast.makeText(this@MainActivity,"全部通过了", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"部分通过了", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onDenied(
+                        permissions: List<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+                        if (doNotAskAgain){
+                            Toast.makeText(this@MainActivity,"拒绝且不再询问", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"拒绝了", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+        })
+        ////////////////////////////////////////////////////
+        /////                  分割线                   /////
+        ////////////////////////////////////////////////////
+        b.btn2.setOnClickListener(View.OnClickListener{
+            AskPermission
+                .with(this@MainActivity)
+                .permission(ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
                     .setContent("权限说明内容，你为什么要申请这个权限，要做什么。"))
