@@ -1,10 +1,11 @@
-package spa.lyh.cn.permissionutils.demo
+package spa.lyh.cn.permissionutils.demo.pop
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import spa.lyh.cn.permissionutils.demo.R
 import spa.lyh.cn.permissionutils.view.DefaultPermissionPopup
 
 open class PermissionPopup(context: Context) : DefaultPermissionPopup(context){

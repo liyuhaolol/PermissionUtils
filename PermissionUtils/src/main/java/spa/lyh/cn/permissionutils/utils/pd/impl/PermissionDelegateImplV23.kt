@@ -26,7 +26,7 @@ open class PermissionDelegateImplV23: PermissionDelegateImplV21() {
             if (!AVersion.isAndroid6()) {
                 return true
             }
-            return PUtils.checkSelfPermission(context, permission);
+            return PUtils.checkSelfPermission(context, permission)
         }
 
         if (PUtils.equalsPermission(permission, ManifestPro.permission.SYSTEM_ALERT_WINDOW)) {

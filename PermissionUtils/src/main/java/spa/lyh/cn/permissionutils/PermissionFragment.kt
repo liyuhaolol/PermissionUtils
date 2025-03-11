@@ -145,7 +145,7 @@ class PermissionFragment: Fragment(), Runnable {
         }
 
         val allPermissions = arguments.getStringArrayList(REQUEST_PERMISSIONS)
-        if (allPermissions == null || allPermissions.isEmpty) {
+        if (allPermissions.isNullOrEmpty()) {
             return
         }
 
@@ -186,7 +186,7 @@ class PermissionFragment: Fragment(), Runnable {
         val requestCode = arguments.getInt(REQUEST_CODE)
         val allPermissions = arguments.getStringArrayList(REQUEST_PERMISSIONS)
 
-        if (allPermissions == null || allPermissions.isEmpty) {
+        if (allPermissions.isNullOrEmpty()) {
             return
         }
         if (!AVersion.isAndroid6()) {
@@ -362,7 +362,7 @@ class PermissionFragment: Fragment(), Runnable {
         }
 
         val allPermissions = arguments.getStringArrayList(REQUEST_PERMISSIONS)
-        if (allPermissions == null || allPermissions.isEmpty) {
+        if (allPermissions.isNullOrEmpty()) {
             return
         }
 

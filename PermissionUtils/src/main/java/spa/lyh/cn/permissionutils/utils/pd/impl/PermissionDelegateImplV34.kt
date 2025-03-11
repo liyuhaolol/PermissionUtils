@@ -2,11 +2,9 @@ package spa.lyh.cn.permissionutils.utils.pd.impl
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import spa.lyh.cn.permissionutils.ManifestPro
 import spa.lyh.cn.permissionutils.utils.AVersion
 import spa.lyh.cn.permissionutils.utils.PUtils
-import spa.lyh.cn.permissionutils.utils.pd.PermissionDelegate
 
 open class PermissionDelegateImplV34: PermissionDelegateImplV33() {
 
@@ -24,10 +22,10 @@ open class PermissionDelegateImplV34: PermissionDelegateImplV33() {
     override fun isDoNotAskAgainPermission(activity: Activity, permission: String): Boolean {
         if (PUtils.equalsPermission(permission, ManifestPro.permission.READ_MEDIA_VISUAL_USER_SELECTED)) {
             if (!AVersion.isAndroid14()) {
-                return false;
+                return false
             }
             return !PUtils.checkSelfPermission(activity, permission) &&
-                    !PUtils.shouldShowRequestPermissionRationale(activity, permission);
+                    !PUtils.shouldShowRequestPermissionRationale(activity, permission)
         }
 
         return super.isDoNotAskAgainPermission(activity, permission)

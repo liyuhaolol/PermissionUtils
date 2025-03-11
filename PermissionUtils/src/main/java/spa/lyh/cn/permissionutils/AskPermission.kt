@@ -1,9 +1,8 @@
 package spa.lyh.cn.permissionutils
 
 import android.app.Activity
-import androidx.fragment.app.Fragment
 import android.content.Context
-import android.text.TextUtils
+import androidx.fragment.app.Fragment
 import spa.lyh.cn.permissionutils.utils.PApi
 import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.PermissionChecker
@@ -38,6 +37,20 @@ open class AskPermission private constructor(private val mContext:Context){
         @JvmStatic
         fun isGranted(context:Context, permissions:List<String>): Boolean {
             return PApi.isGrantedPermissions(context, permissions)
+        }
+
+        /**
+         * 获取没有授予的权限
+         */
+        @JvmStatic
+        fun getDenied(context: Context, vararg permissions: String
+        ): List<String> {
+            return getDenied(context, arrayListOf(*permissions))
+        }
+
+        @JvmStatic
+        fun getDenied(context: Context,permissions:List<String>): List<String> {
+            return PApi.getDeniedPermissions(context, permissions)
         }
     }
 

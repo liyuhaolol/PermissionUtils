@@ -6,8 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import spa.lyh.cn.permissionutils.utils.AVersion
+import spa.lyh.cn.permissionutils.view.DefaultDialog
 import spa.lyh.cn.permissionutils.view.DefaultPermissionPopup
 
 open class DefaultPermissionInterceptor: OnPermissionInterceptor {
@@ -15,11 +17,13 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
     private var mRequestFlag = false
     /** 权限申请说明 Popup */
     private var mPermissionPopup: DefaultPermissionPopup? = null
+    private var mDefaultDialog:DefaultDialog? = null
 
     val HANDLER:Handler = Handler(Looper.getMainLooper())
 
     override fun launchPermissionRequest(activity: Activity, allPermissions: List<String>, callback: OnPermissionCallback?) {
         mRequestFlag = true
+        val deniedPermissions: List<String> = AskPermission.getDenied(activity, allPermissions)
         var showPopupWindow = true
         for (permission in allPermissions) {
             if (!AskPermission.isSpecial(permission)) {
@@ -54,6 +58,19 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
             },300)
         }else{
             //特殊权限要弹dialog
+            if (mDefaultDialog != null){
+                mDefaultDialog!!.setPositiveButton(View.OnClickListener {
+                    mDefaultDialog!!.dismiss()
+                    super.launchPermissionRequest(activity, allPermissions, callback)
+                })
+                mDefaultDialog!!.setNegativeButton(View.OnClickListener {
+                    mDefaultDialog!!.dismiss()
+                    callback?.onDenied(deniedPermissions, false)
+                })
+                mDefaultDialog!!.show()
+            }else{
+                super.launchPermissionRequest(activity, allPermissions, callback)
+            }
         }
     }
 
@@ -83,5 +100,9 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
 
     fun setPopUpWindow(pop:DefaultPermissionPopup){
         this.mPermissionPopup = pop
+    }
+
+    fun setPopSettingDialog(dialog:DefaultDialog){
+        this.mDefaultDialog = dialog;
     }
 }

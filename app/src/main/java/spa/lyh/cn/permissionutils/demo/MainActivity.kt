@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity() {
                 .with(this@MainActivity)
                 //.permission(ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
                 .permission(
-                    ManifestPro.permission.CAMERA,
-                    ManifestPro.permission.ACCESS_FINE_LOCATION,
-                    ManifestPro.permission.ACCESS_COARSE_LOCATION)
+                    ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
                 //.permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
