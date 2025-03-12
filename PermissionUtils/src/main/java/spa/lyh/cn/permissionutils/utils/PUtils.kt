@@ -148,6 +148,18 @@ object PUtils {
         return list
     }
 
+
+    fun <T> asArrayLists(vararg arrays: Array<T>):ArrayList<T> {
+        val list = ArrayList<T>()
+        if (arrays.isEmpty()) {
+            return list
+        }
+        for (ts in arrays) {
+            list.addAll(PUtils.asArrayList<T>(*ts))
+        }
+        return list
+    }
+
     /**
      * 判断这个意图的 Activity 是否存在
      */

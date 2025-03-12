@@ -2,16 +2,22 @@ package spa.lyh.cn.permissionutils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.fragment.app.Fragment
+import spa.lyh.cn.permissionutils.utils.AVersion
 import spa.lyh.cn.permissionutils.utils.PApi
+import spa.lyh.cn.permissionutils.utils.PIntentManager
 import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.PermissionChecker
+import spa.lyh.cn.permissionutils.utils.StartActivityManager
 
 open class AskPermission private constructor(private val mContext:Context){
     private val mPermissions: ArrayList<String> = arrayListOf()
     private var mInterceptor:OnPermissionInterceptor? = null
 
     companion object{
+        /** 权限设置页跳转请求码  */
+        const val REQUEST_CODE: Int = 1024 + 1
         @JvmStatic
         fun with(context: Context): AskPermission{
             return AskPermission(context)
@@ -51,6 +57,156 @@ open class AskPermission private constructor(private val mContext:Context){
         @JvmStatic
         fun getDenied(context: Context,permissions:List<String>): List<String> {
             return PApi.getDeniedPermissions(context, permissions)
+        }
+
+
+        /* android.content.Context */
+        @JvmStatic
+        fun startPermissionActivity(context: Context) {
+            startPermissionActivity(context, ArrayList<String>(0))
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(context: Context,vararg permissions: String) {
+            startPermissionActivity(context, PUtils.asArrayList(permissions) as ArrayList<String>)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(context: Context, vararg permissions: Array<String>) {
+            startPermissionActivity(context, PUtils.asArrayLists(permissions) as ArrayList<String>)
+        }
+
+        /**
+         * 跳转到应用权限设置页
+         *
+         * @param permissions           没有授予或者被拒绝的权限组
+         */
+        @JvmStatic
+        fun startPermissionActivity(context: Context,permissions: List<String>) {
+            val activity: Activity? = PUtils.findActivity(context)
+            if (activity != null) {
+                startPermissionActivity(activity, permissions)
+                return
+            }
+            val intent: Intent = PApi.getSmartPermissionIntent(context, permissions)
+            if (context !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            StartActivityManager.startActivity(context, intent)
+        }
+
+
+         //android.app.Activity
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity) {
+            startPermissionActivity(activity, ArrayList<String>(0))
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,vararg permissions: String) {
+            startPermissionActivity(activity, PUtils.asArrayList(permissions) as ArrayList<String>)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,vararg permissions: Array<String>) {
+            startPermissionActivity(activity, PUtils.asArrayLists(permissions) as ArrayList<String>)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,permissions: List<String>) {
+            startPermissionActivity(activity, permissions, REQUEST_CODE)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,permissions: List<String>, requestCode: Int) {
+            val intent: Intent = PApi.getSmartPermissionIntent(activity, permissions)
+            StartActivityManager.startActivityForResult(activity, intent, requestCode)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,permission: String,callback: OnPermissionPageCallback?) {
+            startPermissionActivity(activity, PUtils.asArrayList(permission), callback)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,permissions: Array<String>,callback: OnPermissionPageCallback?) {
+            startPermissionActivity(activity, PUtils.asArrayLists(permissions), callback)
+        }
+
+        @JvmStatic
+        fun startPermissionActivity(activity: Activity,permissions: List<String>,callback: OnPermissionPageCallback?) {
+            if (permissions.isEmpty()) {
+                StartActivityManager.startActivity(
+                    activity,
+                    PIntentManager.getApplicationDetailsIntent(activity)
+                )
+                return
+            }
+            PermissionPageFragment.launch(activity, permissions, callback)
+        }
+
+
+         //android.app.Fragment
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment) {
+            startPermissionActivity(fragment, java.util.ArrayList<String>(0))
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,vararg permissions: String) {
+            startPermissionActivity(fragment, PUtils.asArrayList(permissions) as ArrayList<String>)
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,vararg permissions: Array<String>) {
+            startPermissionActivity(fragment, PUtils.asArrayLists(permissions) as ArrayList<String>)
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,permissions: List<String>) {
+            startPermissionActivity(
+                fragment,
+                permissions,
+                REQUEST_CODE
+            )
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,permissions: List<String>,
+            requestCode: Int
+        ) {
+            val activity = fragment.activity ?: return
+            if (permissions.isEmpty()) {
+                StartActivityManager.startActivity(
+                    fragment,
+                    PIntentManager.getApplicationDetailsIntent(activity)
+                )
+                return
+            }
+            val intent: Intent = PApi.getSmartPermissionIntent(activity, permissions)
+            StartActivityManager.startActivityForResult(fragment, intent, requestCode)
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,permission: String,callback: OnPermissionPageCallback?) {
+            startPermissionActivity(fragment, PUtils.asArrayList(permission), callback)
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,permissions: Array<String>, callback: OnPermissionPageCallback?) {
+            startPermissionActivity(fragment, PUtils.asArrayLists(permissions), callback)
+        }
+        @JvmStatic
+        fun startPermissionActivity(fragment: android.app.Fragment,permissions: List<String>, callback: OnPermissionPageCallback?) {
+            val activity = fragment.activity
+            if (activity == null || activity.isFinishing) {
+                return
+            }
+            if (AVersion.isAndroid4_2() && activity.isDestroyed) {
+                return
+            }
+            if (permissions.isEmpty()) {
+                StartActivityManager.startActivity(
+                    fragment,
+                    PIntentManager.getApplicationDetailsIntent(activity)
+                )
+                return
+            }
+            PermissionPageFragment.launch(activity, permissions, callback)
         }
     }
 

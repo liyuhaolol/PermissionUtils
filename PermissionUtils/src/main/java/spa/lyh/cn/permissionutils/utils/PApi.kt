@@ -30,6 +30,19 @@ object PApi {
     }
 
     /**
+     * 获取已经授予的权限
+     */
+    fun getGrantedPermissions(context: Context,permissions: List<String>): List<String> {
+        val grantedPermission: MutableList<String> = java.util.ArrayList(permissions.size)
+        for (permission in permissions) {
+            if (PApi.isGrantedPermission(context, permission)) {
+                grantedPermission.add(permission)
+            }
+        }
+        return grantedPermission
+    }
+
+    /**
      * 获取已经拒绝的权限
      */
     fun getDeniedPermissions( context: Context,permissions: List<String>): List<String> {
