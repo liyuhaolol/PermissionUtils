@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
                 .permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
-                    .setContent("权限说明内容，你为什么要申请这个权限，要做什么。"))
+                    .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。")
+                    .enforce(true))
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 .permission(ManifestPro.permission.MANAGE_EXTERNAL_STORAGE)
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
-                    .setContent("权限说明内容，你为什么要申请这个权限，要做什么。"))
+                    .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。"))
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,

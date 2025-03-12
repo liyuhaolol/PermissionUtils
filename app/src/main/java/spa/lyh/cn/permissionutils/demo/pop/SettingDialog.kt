@@ -41,16 +41,12 @@ class SettingDialog(context: Context):DefaultDialog(context) {
     }
 
     fun setTitle(title:String){
-        if (contentView != null){
-            val titleView:TextView = contentView.findViewById(R.id.title)
-            titleView.text = title
-        }
+        val titleView:TextView = contentView.findViewById(R.id.title)
+        titleView.text = title
     }
 
     fun setContent(content:String){
-        if (contentView != null){
-            val contentView:TextView = contentView.findViewById(R.id.content)
-            contentView.text = content
-        }
+        val contentView:TextView = contentView.findViewById(R.id.content)
+        contentView.text = content
     }
 }

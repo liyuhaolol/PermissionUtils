@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,9 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
     /** 权限申请说明 Popup */
     private var mPermissionPopup: DefaultPermissionPopup? = null
     private var mDefaultDialog:DefaultDialog? = null
+    private var mDefaultSettingDialog:DefaultDialog? = null
+
+    var forceShowSetting:Boolean = false
 
     val HANDLER:Handler = Handler(Looper.getMainLooper())
 
@@ -74,6 +78,27 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
         }
     }
 
+    override fun deniedPermissionRequest(activity: Activity, allPermissions: ArrayList<String>, deniedPermissions: ArrayList<String>, doNotAskAgain: Boolean, callback: OnPermissionCallback?) {
+        if (forceShowSetting && doNotAskAgain){
+            if (mDefaultSettingDialog != null){
+                mDefaultSettingDialog!!.setPositiveButton(View.OnClickListener {
+                    mDefaultSettingDialog!!.dismiss()
+                    //AskPermission.
+                })
+                mDefaultSettingDialog!!.setNegativeButton(View.OnClickListener {
+                    mDefaultSettingDialog!!.dismiss()
+                    super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
+                })
+                mDefaultSettingDialog!!.show()
+            }else{
+                Log.e("PermissionInterceptor","未初始化权限说明Dialog")
+                super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
+            }
+        }else{
+            super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
+        }
+    }
+
     override fun finishPermissionRequest(
         activity: Activity,
         allPermissions: ArrayList<String>,
@@ -102,7 +127,11 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
         this.mPermissionPopup = pop
     }
 
-    fun setPopSettingDialog(dialog:DefaultDialog){
-        this.mDefaultDialog = dialog;
+    fun setSepcialSettingDialog(dialog:DefaultDialog){
+        this.mDefaultDialog = dialog
+    }
+
+    fun setGoSettingDialog(dialog:DefaultDialog){
+        this.mDefaultSettingDialog = dialog
     }
 }
