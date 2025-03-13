@@ -9,22 +9,26 @@ import spa.lyh.cn.permissionutils.demo.pop.SettingDialog
 class PermissionInterceptor(mContext: Context): DefaultPermissionInterceptor() {
     var permissionPopup: PermissionPopup = PermissionPopup(mContext)
     var settingPopup:SettingDialog = SettingDialog(mContext)
+    var deniedPopup: SettingDialog = SettingDialog(mContext)
 
     init {
         setPopUpWindow(permissionPopup)
         setSepcialSettingDialog(settingPopup)
+        setGoSettingDialog(deniedPopup)
     }
 
 
     fun setTitle(title:String):PermissionInterceptor{
         permissionPopup.setTitle(title)
         settingPopup.setTitle(title)
+        deniedPopup.setTitle(title)
         return this
     }
 
     fun setDescription(content:String):PermissionInterceptor{
         permissionPopup.setContent(content)
         settingPopup.setContent(content)
+        deniedPopup.setContent(content)
         return this
     }
 

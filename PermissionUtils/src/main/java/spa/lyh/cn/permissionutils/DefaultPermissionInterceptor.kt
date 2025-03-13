@@ -81,15 +81,7 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
     override fun deniedPermissionRequest(activity: Activity, allPermissions: ArrayList<String>, deniedPermissions: ArrayList<String>, doNotAskAgain: Boolean, callback: OnPermissionCallback?) {
         if (forceShowSetting && doNotAskAgain){
             if (mDefaultSettingDialog != null){
-                mDefaultSettingDialog!!.setPositiveButton(View.OnClickListener {
-                    mDefaultSettingDialog!!.dismiss()
-                    //AskPermission.
-                })
-                mDefaultSettingDialog!!.setNegativeButton(View.OnClickListener {
-                    mDefaultSettingDialog!!.dismiss()
-                    super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
-                })
-                mDefaultSettingDialog!!.show()
+                showDeniedDialog(activity,allPermissions,deniedPermissions, doNotAskAgain, callback)
             }else{
                 Log.e("PermissionInterceptor","未初始化权限说明Dialog")
                 super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
@@ -107,6 +99,26 @@ open class DefaultPermissionInterceptor: OnPermissionInterceptor {
     ) {
         mRequestFlag = false
         dismissPopupWindow()
+    }
+
+    private fun showDeniedDialog(activity: Activity, allPermissions: ArrayList<String>, deniedPermissions: ArrayList<String>, doNotAskAgain: Boolean, callback: OnPermissionCallback?){
+        mDefaultSettingDialog!!.setPositiveButton(View.OnClickListener {
+            mDefaultSettingDialog!!.dismiss()
+            AskPermission.startPermissionActivity(activity,deniedPermissions,object :OnPermissionPageCallback{
+                override fun onGranted() {
+                    callback?.onGranted(allPermissions,true)
+                }
+
+                override fun onDenied() {
+                    showDeniedDialog(activity,allPermissions, ArrayList(AskPermission.getDenied(activity,allPermissions)),doNotAskAgain, callback)
+                }
+            })
+        })
+        mDefaultSettingDialog!!.setNegativeButton(View.OnClickListener {
+            mDefaultSettingDialog!!.dismiss()
+            super.deniedPermissionRequest(activity, allPermissions, deniedPermissions, doNotAskAgain, callback)
+        })
+        mDefaultSettingDialog!!.show()
     }
 
     private fun showPopupWindow(decorView: ViewGroup){

@@ -48,7 +48,7 @@ object PApi {
     fun getDeniedPermissions( context: Context,permissions: List<String>): List<String> {
         val deniedPermission: MutableList<String> = java.util.ArrayList(permissions.size)
         for (permission in permissions) {
-            if (PApi.isGrantedPermission(context, permission)) {
+            if (!isGrantedPermission(context, permission)) {
                 deniedPermission.add(permission)
             }
         }
