@@ -81,5 +81,39 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
         })
+        ////////////////////////////////////////////////////
+        /////                  分割线                   /////
+        ////////////////////////////////////////////////////
+        b.btn3.setOnClickListener(View.OnClickListener{
+            AskPermission
+                .with(this@MainActivity)
+                .permission(ManifestPro.permission.POST_NOTIFICATIONS)
+                .interceptor(PermissionInterceptor(this)
+                    .setTitle("权限说明标题")
+                    .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。"))
+                .request(object : OnPermissionCallback{
+                    override fun onGranted(
+                        permissions: List<String>,
+                        allGranted: Boolean
+                    ) {
+                        if (allGranted){
+                            Toast.makeText(this@MainActivity,"全部通过了", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"部分通过了", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onDenied(
+                        permissions: List<String>,
+                        doNotAskAgain: Boolean
+                    ) {
+                        if (doNotAskAgain){
+                            Toast.makeText(this@MainActivity,"拒绝且不再询问", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"拒绝了", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+        })
     }
 }
