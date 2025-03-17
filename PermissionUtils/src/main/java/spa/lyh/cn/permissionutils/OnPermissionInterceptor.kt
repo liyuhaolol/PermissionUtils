@@ -4,7 +4,7 @@ import android.app.Activity
 
 interface OnPermissionInterceptor {
 
-    fun launchPermissionRequest(activity: Activity, allPermissions: List<String>, callback: OnPermissionCallback?) {
+    fun launchPermissionRequest(activity: Activity, allPermissions: MutableList<String>, callback: OnPermissionCallback?) {
         PermissionFragment.launch(activity, allPermissions, this, callback)
     }
 

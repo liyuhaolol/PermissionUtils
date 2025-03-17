@@ -1,6 +1,7 @@
 package spa.lyh.cn.permissionutils.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,10 @@ import spa.lyh.cn.permissionutils.AskPermission
 import spa.lyh.cn.permissionutils.ManifestPro
 import spa.lyh.cn.permissionutils.OnPermissionCallback
 import spa.lyh.cn.permissionutils.demo.databinding.ActivityMainBinding
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity() {
     lateinit var b: ActivityMainBinding
@@ -15,6 +20,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         b = ActivityMainBinding.inflate(layoutInflater)
         setContentView(b.root)
+/*        val time: Duration = 1.seconds
+        Log.e("qwer","${time.inWholeMilliseconds}")*/
+/*        val time: java.time.Duration = java.time.Duration.ofMinutes(1)
+        Log.e("qwer","${time.toMillis()}")*/
+
         b.btn1.setOnClickListener(View.OnClickListener{
             AskPermission
                 .with(this@MainActivity)
@@ -22,7 +32,8 @@ class MainActivity : AppCompatActivity() {
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
                     .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。")
-                    .enforce(true))
+                    .enforce(true)
+                    .interval(30.seconds))
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,
@@ -87,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         b.btn3.setOnClickListener(View.OnClickListener{
             AskPermission
                 .with(this@MainActivity)
-                .permission(ManifestPro.permission.POST_NOTIFICATIONS)
+                .permission(ManifestPro.permission.NOTIFICATION_SERVICE)
                 .interceptor(PermissionInterceptor(this)
                     .setTitle("权限说明标题")
                     .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。"))

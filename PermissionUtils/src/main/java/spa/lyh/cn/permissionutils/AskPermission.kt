@@ -3,6 +3,7 @@ package spa.lyh.cn.permissionutils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import spa.lyh.cn.permissionutils.utils.AVersion
 import spa.lyh.cn.permissionutils.utils.PApi
@@ -10,6 +11,7 @@ import spa.lyh.cn.permissionutils.utils.PIntentManager
 import spa.lyh.cn.permissionutils.utils.PUtils
 import spa.lyh.cn.permissionutils.utils.PermissionChecker
 import spa.lyh.cn.permissionutils.utils.StartActivityManager
+import kotlin.time.Duration
 
 open class AskPermission private constructor(private val mContext:Context){
     private val mPermissions: ArrayList<String> = arrayListOf()
@@ -227,7 +229,7 @@ open class AskPermission private constructor(private val mContext:Context){
 
     fun request(callback:OnPermissionCallback?){
         if (mInterceptor == null){
-            mInterceptor = DefaultPermissionInterceptor()
+            mInterceptor = DefaultPermissionInterceptor(this.mContext)
         }
         val context = this.mContext
         val interceptor:OnPermissionInterceptor = mInterceptor!!
@@ -242,8 +244,8 @@ open class AskPermission private constructor(private val mContext:Context){
 
         if (PApi.isGrantedPermissions(context, permissions)) {
             // 证明这些权限已经全部授予过，直接回调成功
-            interceptor.grantedPermissionRequest(activity!!, permissions, permissions, true, callback);
-            interceptor.finishPermissionRequest(activity, permissions, true, callback);
+            interceptor.grantedPermissionRequest(activity!!, permissions, permissions, true, callback)
+            interceptor.finishPermissionRequest(activity, permissions, true, callback)
             return
         }
         // 申请没有授予过的权限

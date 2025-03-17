@@ -6,7 +6,7 @@ import spa.lyh.cn.permissionutils.demo.pop.PermissionPopup
 import spa.lyh.cn.permissionutils.demo.pop.SettingDialog
 
 //自行决定这个方法要如何来写
-class PermissionInterceptor(mContext: Context): DefaultPermissionInterceptor() {
+class PermissionInterceptor(mContext: Context): DefaultPermissionInterceptor(mContext) {
     var permissionPopup: PermissionPopup = PermissionPopup(mContext)
     var settingPopup:SettingDialog = SettingDialog(mContext)
     var deniedPopup: SettingDialog = SettingDialog(mContext)
