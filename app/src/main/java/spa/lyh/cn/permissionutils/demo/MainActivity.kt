@@ -30,10 +30,11 @@ class MainActivity : AppCompatActivity() {
                 .with(this@MainActivity)
                 .permission(arrayListOf<String>(ManifestPro.permission.CAMERA, ManifestPro.permission.ACCESS_FINE_LOCATION))
                 .interceptor(PermissionInterceptor(this)
-                    .setTitle("权限说明标题")
-                    .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。")
-                    .enforce(true)
-                    .interval(30.seconds))
+                    .setTitle("权限说明标题")//设置说明的标题
+                    .setDescription("权限说明内容，你为什么要申请这个权限，要做什么。")//设置说明内容
+                    .enforce(true)//权限拒绝后是否强制显示弹窗，对特殊权限无效
+                    .interval(30.seconds)//相同权限重复请求的间隔时间
+                )
                 .request(object : OnPermissionCallback{
                     override fun onGranted(
                         permissions: List<String>,
