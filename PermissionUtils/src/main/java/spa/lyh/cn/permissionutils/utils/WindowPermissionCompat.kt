@@ -23,10 +23,11 @@ object WindowPermissionCompat {
 
     fun getPermissionIntent(context: Context): Intent {
         if (AVersion.isAndroid6()) {
-            if (AVersion.isAndroid11() && PRUtils.isMiui() && PRUtils.isMiuiOptimization()) {
+            //这里只是猜测，注释掉了小米的操作。
+            /*if (AVersion.isAndroid11() && PRUtils.isMiui() && PRUtils.isMiuiOptimization()) {
                 val intent = PIntentManager.getMiuiPermissionPageIntent(context)
                 return StartActivityManager.addSubIntentToMainIntent(intent, PIntentManager.getApplicationDetailsIntent(context))!!
-            }
+            }*/
 
             val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
             intent.data = PUtils.getPackageNameUri(context)
