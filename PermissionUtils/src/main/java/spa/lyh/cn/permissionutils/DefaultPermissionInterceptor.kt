@@ -166,7 +166,7 @@ open class DefaultPermissionInterceptor(val context: Context): OnPermissionInter
                 }
             }
         }
-        //判断权限拒绝后是否要弹窗
+        //判断权限拒绝后是否要弹窗//这里不对，没有对时间进行判断
         if (forceShowSetting && doNotAskAgain){
             if (mDefaultSettingDialog != null){
                 showDeniedDialog(activity,allPermissions,deniedPermissions, doNotAskAgain, callback)
